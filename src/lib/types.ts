@@ -108,12 +108,52 @@ export interface FollowingAnalysis {
   aiReport: FollowingAIReport;
 }
 
+export interface ContentTypeStat {
+  type: InstagramPost["type"];
+  label: string;
+  count: number;
+  percentage: number;
+  avgLikes: number;
+  avgComments: number;
+  avgEngagementRate: number;
+}
+
+export interface ContentTypeAnalysis {
+  types: ContentTypeStat[];
+  reelRatio: number;
+  bestPerformingType: string;
+  captionLengthInsight: string;
+}
+
+export interface WordStat {
+  word: string;
+  count: number;
+}
+
+export interface EmojiStat {
+  emoji: string;
+  count: number;
+}
+
+export interface CaptionToneAnalysis {
+  topWords: WordStat[];
+  topEmojis: EmojiStat[];
+  koreanRatio: number;
+  englishRatio: number;
+  tone: "casual" | "formal" | "mixed";
+  questionRatio: number;
+  avgCaptionLength: number;
+  toneSummary: string;
+}
+
 export interface AnalysisStats {
   hashtags: HashtagStat[];
   music: MusicStat[];
   timeSlots: TimeSlotStat[];
   engagement: EngagementStats;
   originalAudioRatio: number;
+  contentType: ContentTypeAnalysis;
+  captionTone: CaptionToneAnalysis;
 }
 
 export interface AnalysisResult {

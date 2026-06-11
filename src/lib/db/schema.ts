@@ -6,3 +6,10 @@ export const analysisCache = sqliteTable("analysis_cache", {
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
 });
+
+export const shareLinks = sqliteTable("share_links", {
+  token: text("token").primaryKey(),
+  username: text("username").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+});

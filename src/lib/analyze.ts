@@ -7,6 +7,8 @@ import type {
   MusicStat,
   TimeSlotStat,
 } from "./types";
+import { computeCaptionToneAnalysis } from "./analyze-caption";
+import { computeContentTypeAnalysis } from "./analyze-content";
 
 const DAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -131,5 +133,7 @@ export function computeStats(
     timeSlots: computeTimeSlotStats(posts),
     engagement: computeEngagementStats(posts, profile),
     originalAudioRatio: computeOriginalAudioRatio(posts),
+    contentType: computeContentTypeAnalysis(posts, profile),
+    captionTone: computeCaptionToneAnalysis(posts),
   };
 }
