@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 인스타그램 성향 분석 웹서비스
 
-## Getting Started
+인스타그램 아이디를 검색하면 해시태그, 음악, 팔로잉, 활동 패턴을 분석하고 AI 성향 리포트를 제공합니다.
 
-First, run the development server:
+## 기능
+
+- 해시태그 빈도 분석 (TOP 20, 워드클라우드)
+- 릴스 음악 사용 분석 (TOP 10, 오리지널 오디오 비율)
+- 팔로잉 분석 (카테고리 분포, 바이오 키워드, 주요 팔로잉, 네트워크 유형)
+- 게시 시간대 히트맵
+- 참여율 통계 (좋아요, 댓글, 주간 게시 빈도)
+- AI 성향 리포트 (관심사 카테고리, 키워드, 페르소나 요약)
+- 24시간 결과 캐싱
+
+## 시작하기
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:3000 에서 확인
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 환경 변수
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| 변수 | 설명 | 필수 |
+|------|------|------|
+| `APIFY_TOKEN` | Apify API 토큰 | 실데이터 시 |
+| `OPENAI_API_KEY` | OpenAI API 키 | AI 리포트 시 (없으면 규칙 기반) |
+| `USE_MOCK_DATA` | `true`면 목 데이터 사용 | 개발용 |
+| `ANALYSIS_LIMIT` | 분석 게시물 수 (기본 50) | |
+| `FOLLOWING_LIMIT` | 분석 팔로잉 수 (기본 100) | |
+| `CACHE_TTL_HOURS` | 캐시 유효 시간 (기본 24) | |
 
-## Learn More
+## 기술 스택
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js 16 (App Router) + TypeScript + Tailwind CSS
+- Apify (인스타그램 데이터 수집)
+- OpenAI (AI 성향 분석)
+- SQLite + Drizzle ORM (캐싱)
+- Recharts (차트)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 프로젝트 구조
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  app/           # 페이지 및 API 라우트
+  components/    # UI 컴포넌트
+  lib/           # 비즈니스 로직
+    apify.ts     # Apify 연동
+    analyze.ts           # 게시물 통계 분석
+    analyze-following.ts # 팔로잉 분석
+    ai.ts                # AI 리포트
+    cache.ts     # SQLite 캐싱
+    db/          # Drizzle 스키마
+```
